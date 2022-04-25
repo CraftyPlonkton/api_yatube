@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets, generics, permissions, pagination, filters
+from rest_framework import generics, viewsets, permissions, pagination, filters
 
 from api.serializers import (
     PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer)
