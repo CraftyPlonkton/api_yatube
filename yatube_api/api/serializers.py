@@ -1,4 +1,4 @@
-from rest_framework import serializers, validators
+from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
 
@@ -43,8 +43,10 @@ class FollowSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Нельзя подписаться на себя')
         if Follow.objects.filter(
             user__username=self.context['request'].user,
-            following__username=attrs['following']).exists():
-            raise serializers.ValidationError('Подписка на этого автора уже существует')
+            following__username=attrs['following']
+        ).exists():
+            raise serializers.ValidationError(
+                'Подписка на этого автора уже существует')
         return super().validate(attrs)
 
     class Meta:
