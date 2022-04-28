@@ -55,7 +55,7 @@ python3 manage.py runserver
 
 ### Примеры использования Api
 
- Создание поста POST запросом на эндпоинт /api/v1/posts/
+##### Создание поста POST запросом на эндпоинт /api/v1/posts/
 {
 
     "text": "string",
