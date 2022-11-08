@@ -9,6 +9,8 @@
 http://127.0.0.1:8000/redoc/
 ```
 ### Как запустить проект на тестовом сервере:
+
+<details><summary> Linux </summary>
 Клонировать репозиторий, перейти в директорию с проектом.
 
 Cоздать и активировать виртуальное окружение:
@@ -42,57 +44,101 @@ python3 yatube_api/manage.py migrate
 ```
 python3 yatube_api/manage.py runserver
 ```
+</details>
 
-### Примеры использования Api
+<details><summary> Windows </summary>
+Клонировать репозиторий, перейти в директорию с проектом.
 
-##### Создание поста POST запросом на эндпоинт /api/v1/posts/
-{
+Cоздать и активировать виртуальное окружение:
 
-    "text": "string",
-    "image": "string",
-    "group": 0
+```
+python -m venv venv
+```
 
-}
-##### Ответ:
-{
+```
+source venv/Source/activate
+```
 
-    "id": 0,
-    "author": "string",
-    "text": "string",
-    "pub_date": "2019-08-24T14:15:22Z",
-    "image": "string",
-    "group": 0
+Установить зависимости из файла requirements.txt:
 
-}
+```
+python -m pip install --upgrade pip
+```
 
-##### Получение информации о комментарии GET запросом на эндпоинт /api/v1/posts/{post_id}/comments/{id}/
-##### Ответ:
-{
+```
+pip install -r requirements.txt
+```
 
-    "id": 0,
-    "author": "string",
-    "text": "string",
-    "created": "2019-08-24T14:15:22Z",
-    "post": 0
+Выполнить миграции:
 
-}
-##### Получение списка постов GET запросом на эндпоинт с пагинацией /api/v1/posts/?limit=1&offset=5
-##### Ответ будет содержать 1 элемент на странице, начиная с пятого:
-{
+```
+python yatube_api/manage.py migrate
+```
 
-    "count": 123,
-    "next": "http://api.example.org/accounts/?offset=6&limit=1",
-    "previous": "",
-    "results": [
+Запустить проект:
 
-        {
-            "id": 5,
+```
+python yatube_api/manage.py runserver
+```
+</details>
+
+### Авторизация
+
+Для авторизации используется JWT токен, для его получения необходимы данные существующего пользователя:
+
+POST `http://127.0.0.1:8000/api/v1/jwt/create/`
+
+    {  
+        "username": "string",  
+        "password": "string"  
+    }  
+
+Ответ:
+
+    {
+        "refresh": "string",  
+        "access": "string"
+    }
+
+Полученный access токен передается в заголовке запроса
+
+    Authorization: Bearer <token>
+
+### Примеры использования API
+
+Создание публикации:  
+POST `http://127.0.0.1:8000/api/v1/posts/`  
+<details><summary> Запрос </summary>  
+
+    {  
+        "text": "string",  
+    }  
+
+</details>  
+
+<details><summary> Ответ </summary>
+
+    {
+        "id": 0,
+        "author": "string",
+        "text": "string",
+        "pub_date": "2019-08-24T14:15:22Z",
+        "image": null,
+        "group": null
+    }
+</details>  
+
+Получение комментариев к публикации:  
+GET `http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/`
+<details><summary> Ответ </summary>  
+
+    [
+        -{
+            "id": 0,
             "author": "string",
             "text": "string",
-            "pub_date": "2021-10-14T20:41:29.648Z",
-            "image": "string",
-            "group": 0
+            "created": "2019-08-24T14:15:22Z",
+            "post": 0
         }
     ]
-
-}
+</details>  

@@ -1,8 +1,6 @@
-from django.urls import path, include
-
+from api.views import CommentViewSet, FollowView, GroupViewSet, PostViewSet
+from django.urls import include, path
 from rest_framework import routers
-
-from api.views import GroupViewSet, PostViewSet, CommentViewSet, FollowView
 
 router_v1 = routers.DefaultRouter()
 router_v1.register(r'groups', GroupViewSet, basename='group')
