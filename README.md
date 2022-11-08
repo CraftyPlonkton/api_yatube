@@ -56,7 +56,7 @@ python -m venv venv
 ```
 
 ```
-source venv/Source/activate
+source venv/Scripts/activate
 ```
 
 Установить зависимости из файла requirements.txt:
